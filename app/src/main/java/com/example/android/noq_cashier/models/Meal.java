@@ -1,13 +1,11 @@
-package ua.lviv.iot.phoenix.noq.models;
+package com.example.android.noq_cashier.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
 import java.util.HashMap;
 
-@IgnoreExtraProperties
+//@IgnoreExtraProperties
 public class Meal implements Parcelable {
     private String preparationTime;
     private String mealPicture;
@@ -18,16 +16,16 @@ public class Meal implements Parcelable {
     private int selectedQuantity;
     public static final Parcelable.Creator<Meal> CREATOR =
             new Parcelable.Creator<Meal>() {
-        @Override
-        public Meal createFromParcel(Parcel source) {
-         return new Meal(source);
-        }
+                @Override
+                public Meal createFromParcel(Parcel source) {
+                    return new Meal(source);
+                }
 
-        @Override
-        public Meal[] newArray(int size) {
-         return new Meal[size];
-        }
-     };
+                @Override
+                public Meal[] newArray(int size) {
+                    return new Meal[size];
+                }
+            };
 
 
     public Meal() {
@@ -147,77 +145,58 @@ public class Meal implements Parcelable {
     private boolean IsChecked;
     private int mQuantity;
     public static int numberOfCheckedItems;
-
-
     Meal () {
         IsChecked = false;
     }
-
     Meal (Object o) {
         this((HashMap<String, ?>) o);
     }
-
     Meal (String str) {
         this((HashMap<String, String>) Splitter.on(",").withKeyValueSeparator("=").split(str));
     }
-
     Meal (HashMap<String, ?> map) {
         this((String) map.get("name"), map.get("price"),
                 (map.get("quantity") != null) ? map.get("quantity") : 0);
     }
-
-
     Meal (String mealName, Object mealPrice, Object mealQuantity) {
         this();
         mealName = mealName;
         mealPrice = Integer.parseInt(mealPrice.toString());
         mQuantity = Integer.parseInt(mealQuantity.toString());
     }
-
     Meal (String mealName, long mealPrice) {
         this(mealName, mealPrice, 0L);
     }
-
     public String toString() {
         return "{name=" + mealName +
                 ", price=" + mealPrice +
                 ", quantity=" + mQuantity + "}";
     }
-
-
     public int incrementQuantity() {
         mQuantity++;
         return getQuantity();
     }
-
     public int decrementQuantity() {
         mQuantity--;
         return getQuantity();
     }
-
     public int getQuantity() {
         return (mQuantity < 0 ? (mQuantity = 0) : mQuantity);
     }
-
     public void setChecked(boolean isChecked){
         numberOfCheckedItems += isChecked ? 1 : -1;
         IsChecked = isChecked;
     }
-
     public String getMealName(){
         return mealName;
     }
-
     public int getMealPrice(){
         return mealPrice;
     }
-
     public String getMealPicture() {
         return mealPicture;
     }
-
     public void setMealPicture(String mealPicture) {
         this.mealPicture = mealPicture;
     }
     */
-
