@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "648378489334",
+    "firebase_url": "https://phoenix-no-q.firebaseio.com",
+    "project_id": "phoenix-no-q",
+    "storage_bucket": "phoenix-no-q.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648378489334:android:13483c399d53db11",
+        "android_client_info": {
+          "package_name": "com.example.android.noq_cashier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648378489334-138kgq7v5fiftdget7pp0vifahki0i2m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.noq_cashier",
+            "certificate_hash": "0e1bd492789bbab5abbf16d345ff8bc3e4ee3392"
+          }
+        },
+        {
+          "client_id": "648378489334-0kfava9v3evp4123h6bosi4ohojb3pkg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT1_cjYRFoU5fo7vn05d9xQRJ2l4Ne0fA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648378489334-0kfava9v3evp4123h6bosi4ohojb3pkg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
