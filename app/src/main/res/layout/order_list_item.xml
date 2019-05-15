@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
+
+    <TextView
+        android:id="@+id/name_of_meal"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_marginTop="8dp"
+        android:gravity="top"
+        android:textColor="#000"
+        android:textSize="16sp"
+        tools:text="Pizza" />
+
+    <TextView
+        android:id="@+id/selected_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/photo_of_meal"
+        android:paddingRight="16dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        tools:text="234r" />
+
+    <TextView
+        android:id="@+id/price_of_meal"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_below="@+id/name_of_meal"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp"
+        tools:text="Ціна" />
+
+    <ImageView
+        android:id="@+id/photo_of_meal"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        tools:src="@drawable/google" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/photo_of_meal"
+        android:layout_marginTop="16dp"
+        android:background="#12000000"
+        android:textSize="1sp" />
+
+</RelativeLayout>
