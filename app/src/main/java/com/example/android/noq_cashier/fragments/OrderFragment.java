@@ -8,9 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.android.noq_cashier.R;
+import com.example.android.noq_cashier.activities.BaseActivity;
 import com.example.android.noq_cashier.adapters.MealAdapter;
 import com.example.android.noq_cashier.models.Meal;
 import com.example.android.noq_cashier.models.Order;
@@ -21,6 +23,11 @@ import java.util.ArrayList;
 public class OrderFragment extends Fragment {
 
     private View view;
+
+    Button acceptOrder;
+    Button rejectOrder;
+
+    BaseActivity currentActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +50,36 @@ public class OrderFragment extends Fragment {
 
         ((TextView) view.findViewById(R.id.selected_time_show)).setText(time);
         ((TextView) view.findViewById(R.id.selected_price)).setText(String.format("%s ₴", sumPrice));
+
+        acceptOrder = (Button) view.findViewById(R.id.accept_order);
+        rejectOrder = (Button) view.findViewById(R.id.reject_order);
+
+        currentActivity = (BaseActivity) getActivity();
+
+        acceptOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle b = new Bundle();
+                order.setStatus(true);
+                b.putParcelable("accepted order", order);
+                setArguments(b);
+                currentActivity.goToAcceptedOrderFragment(view);
+            }
+        });
+
+        rejectOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //
+                //setArguments(b);
+                order.setStatus(false);
+                currentActivity.goToNewOrdersFragment(view);
+            }
+        });
+
+
+
+
 
         return view;
     }
