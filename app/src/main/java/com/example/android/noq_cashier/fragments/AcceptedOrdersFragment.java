@@ -1,5 +1,6 @@
 package com.example.android.noq_cashier.fragments;
 
+
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,16 +18,15 @@ import android.widget.ImageView;
 import com.example.android.noq_cashier.R;
 import com.example.android.noq_cashier.activities.BaseActivity;
 import com.example.android.noq_cashier.adapters.MealAdapter;
-import com.example.android.noq_cashier.listeners.MealRecyclerTouchListener;
+import com.example.android.noq_cashier.listeners.RecyclerTouchListener;
 import com.example.android.noq_cashier.models.Meal;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class AcceptedOrdersFragment extends Fragment {
 
+
+
+public class AcceptedOrdersFragment extends Fragment {
 
     private ArrayList<Meal> mealList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -44,9 +44,9 @@ public class AcceptedOrdersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_list_of_new_orders, container, false);
+        view = inflater.inflate(R.layout.fragment_list_of_accepted_orders, container, false);
 
-        recyclerView = view.findViewById(R.id.new_orders_recycler_view);
+        recyclerView = view.findViewById(R.id.accepted_orders_recycler_view);
         mealAdapter = new MealAdapter(mealList);
         recyclerView.setAdapter(mealAdapter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -60,10 +60,15 @@ public class AcceptedOrdersFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // row click listener
-        recyclerView.addOnItemTouchListener(new MealRecyclerTouchListener(currentActivity.getApplicationContext(), recyclerView, new MealRecyclerTouchListener.ClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(currentActivity.getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
 
+                Bundle b = new Bundle();
+                b.putParcelable("cafe", mealList.get(position));
+                setArguments(b);
+                System.out.println("I put extra cafe there!!!!!!!!!!!!!!!");
+                currentActivity.b1(view);
             }
 
             @Override
@@ -114,6 +119,5 @@ public class AcceptedOrdersFragment extends Fragment {
 
         mealAdapter.notifyDataSetChanged();
     }
+
 }
-
-
