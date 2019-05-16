@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import com.example.android.noq_cashier.R;
 import com.example.android.noq_cashier.activities.BaseActivity;
 import com.example.android.noq_cashier.adapters.MealAdapter;
-import com.example.android.noq_cashier.listeners.MealRecyclerTouchListener;
+import com.example.android.noq_cashier.listeners.RecyclerTouchListener;
 import com.example.android.noq_cashier.models.Meal;
 
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class AcceptedOrdersFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // row click listener
-        recyclerView.addOnItemTouchListener(new MealRecyclerTouchListener(currentActivity.getApplicationContext(), recyclerView, new MealRecyclerTouchListener.ClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(currentActivity.getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
 
