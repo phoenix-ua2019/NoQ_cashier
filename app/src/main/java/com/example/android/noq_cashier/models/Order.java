@@ -18,6 +18,7 @@ public class Order implements Parcelable {
     private String mTime;
     private Cafe mCafe;
     private double mSum;
+    private boolean status;
     public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>() {
         @Override
         public Order createFromParcel(Parcel source) {
@@ -57,6 +58,7 @@ public class Order implements Parcelable {
         mSum = sum;
         mDate = date;
         mCafe = cafe;
+        status = false;
     }
 
     Order(@NotNull Parcel source) throws ParseException {
@@ -90,4 +92,6 @@ public class Order implements Parcelable {
     public String getTime() {
         return mTime;
     }
+    public boolean isStatus() { return status; }
+    public void setStatus(boolean status) { this.status = status; }
 }
