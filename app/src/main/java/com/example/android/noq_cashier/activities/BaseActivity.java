@@ -132,6 +132,21 @@ public class BaseActivity extends AppCompatActivity
         setFragment();
     }
 
+    public void goToNewOrdersFragment(View view) {
+        Bundle args = fragment.getArguments();
+        fragment = new NewOrdersFragment();
+        fragment.setArguments(args);
+        setFragment();
+    }
+
+    public void goToAcceptedOrderFragment(View view) {
+        Bundle args = fragment.getArguments();
+        fragment = new AcceptedOrdersFragment();
+        fragment.setArguments(args);
+        setFragment();
+    }
+
+
     private void setFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
