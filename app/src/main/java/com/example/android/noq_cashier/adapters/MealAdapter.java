@@ -18,7 +18,6 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MyViewHolder> 
     private List<Meal> mealList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public ImageView mealPicture;
         public TextView mealName, selectedQuantity, mealPrice;
 
         public MyViewHolder(View view) {
@@ -44,6 +43,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Meal meal = mealList.get(position);
+        System.out.println(meal);
         holder.mealName.setText(meal.getMealName());
         holder.mealPrice.setText(meal.getPrice()+" грн");
         if (meal.getSelectedQuantity() > 0) {

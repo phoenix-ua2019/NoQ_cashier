@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.HashMap;
+import java.util.Map;
 
 //@IgnoreExtraProperties
 public class Meal implements Parcelable {
@@ -32,12 +33,16 @@ public class Meal implements Parcelable {
     }
 
     public Meal (Object o) {
-        this((HashMap<String, ?>) o);
+        this((Map<String, ?>) o);
     }
 
-    public Meal (HashMap<String, ?> map) {
+    public Meal (Map<String, ?> map) {
         mealName = (String) map.get("name");
-        price = (Long) map.get("price");
+        try {
+            price = (Double) map.get("price");
+        } catch (Exception e) {
+            price = (Long) map.get("price");
+        }
     }
 
     public Meal (Parcel source) {

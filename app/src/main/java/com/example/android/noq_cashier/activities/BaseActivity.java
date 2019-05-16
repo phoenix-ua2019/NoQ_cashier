@@ -13,10 +13,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
 
 import com.example.android.noq_cashier.R;
-import com.example.android.noq_cashier.fragments.AcceptedOrdersFragment;
 import com.example.android.noq_cashier.fragments.NewOrdersFragment;
+import com.example.android.noq_cashier.fragments.AcceptedOrdersFragment;
+import com.example.android.noq_cashier.fragments.OrderFragment;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -121,6 +123,20 @@ public class BaseActivity extends AppCompatActivity
 
     private void closeDrawer() {
         drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    public void b1(View view) {
+        Bundle args = fragment.getArguments();
+        fragment = new OrderFragment();
+        fragment.setArguments(args);
+        setFragment();
+    }
+
+    private void setFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.base, fragment)
+                .commit();
     }
 
 }
