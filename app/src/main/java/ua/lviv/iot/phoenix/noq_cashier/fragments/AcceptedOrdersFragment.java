@@ -28,6 +28,7 @@ public class AcceptedOrdersFragment extends Fragment {
     private RecyclerView recyclerView;
     private OrderAdapter orderAdapter;
     private View view;
+    private Order order;
 
     BaseActivity currentActivity;
 
@@ -38,9 +39,14 @@ public class AcceptedOrdersFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_list_of_accepted_orders, container, false);
 
-        Order order = getArguments().getParcelable("accepted order");
+        try {
+            order = getArguments().getParcelable("accepted order");
+            orderList.add(order);
+        } catch (NullPointerException e) {
+            System.out.println("Vpalo");
+        }
 
-        orderList.add(order);
+
 
         recyclerView = view.findViewById(R.id.accepted_orders_recycler_view);
 
