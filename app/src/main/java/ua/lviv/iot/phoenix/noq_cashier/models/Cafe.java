@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.google.common.base.Splitter;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.PropertyName;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,11 +57,11 @@ public class Cafe implements Parcelable {
 
     public Cafe (HashMap<String, ?> map) {
         System.out.println(map);
-        cafeName = (String) map.get("cafeName");
-        cafeLocation = (String) map.get("cafeLocation");
-        mDrawableId = (String) map.get("drawableId");
-        Object temp = map.get("cafeMeals");
-        List<?> tempCafeMeals = (ArrayList<HashMap>) temp;
+        cafeName = (String) map.get("name");
+        cafeLocation = (String) map.get("location");
+        mDrawableId = (String) map.get("icon");
+        List<?> tempCafeMeals = (List<HashMap>) map.get("meals");
+        System.out.println(tempCafeMeals);
         mCafeMeals = (ArrayList<Meal>) tempCafeMeals.stream().map(Meal::new).collect(Collectors.toList());
     }
 
