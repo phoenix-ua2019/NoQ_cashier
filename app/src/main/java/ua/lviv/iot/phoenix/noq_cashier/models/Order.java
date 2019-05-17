@@ -3,6 +3,7 @@ package ua.lviv.iot.phoenix.noq_cashier.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.PropertyName;
 import com.google.firebase.database.annotations.NotNull;
 
 import java.text.DateFormat;
@@ -16,7 +17,8 @@ public class Order implements Parcelable {
     private String mTime;
     private Cafe mCafe;
     private double mSum;
-    private boolean status;
+    private int status;
+    private int pos;
     public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>() {
         @Override
         public Order createFromParcel(Parcel source) {
@@ -42,12 +44,17 @@ public class Order implements Parcelable {
     }
 
     public Order (Map<String, ?> map) {
-        mCafe = new Cafe((Map<String, ?>) map.get("cafe"));
+        mCafe = new Cafe(map.get("cafe"));
         mTime = (String) map.get("time");
         try {
             mSum = (Double) map.get("sum");
         } catch (Exception e){
             mSum = (Long) map.get("sum");
+        }
+        try {
+            status = ((Long) map.get("status")).intValue();
+        } catch (NullPointerException e) {
+
         }
     }
 
@@ -56,7 +63,6 @@ public class Order implements Parcelable {
         mSum = sum;
         mDate = date;
         mCafe = cafe;
-        status = false;
     }
 
     Order(@NotNull Parcel source) throws ParseException {
@@ -90,6 +96,20 @@ public class Order implements Parcelable {
     public String getTime() {
         return mTime;
     }
-    public boolean isStatus() { return status; }
-    public void setStatus(boolean status) { this.status = status; }
+    public int getStatus() {
+        return status;
+    }
+    public boolean isDone() {
+        return status == 1;
+    }
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    public int getPos() {
+        return pos;
+    }
+    public Order setPos(int pos) {
+        this.pos = pos;
+        return this;
+    }
 }

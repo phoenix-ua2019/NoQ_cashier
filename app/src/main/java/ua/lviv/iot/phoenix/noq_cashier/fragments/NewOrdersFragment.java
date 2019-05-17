@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import ua.lviv.iot.phoenix.noq_cashier.R;
 import ua.lviv.iot.phoenix.noq_cashier.activities.BaseActivity;
+import ua.lviv.iot.phoenix.noq_cashier.activities.Useful;
 import ua.lviv.iot.phoenix.noq_cashier.adapters.OrderAdapter;
 import ua.lviv.iot.phoenix.noq_cashier.listeners.RecyclerTouchListener;
 import ua.lviv.iot.phoenix.noq_cashier.models.Order;
@@ -31,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -87,27 +89,12 @@ public class NewOrdersFragment extends Fragment {
             }
         }));
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("orders").child("Bikini Bottom");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               /* for (int i=0; i<dataSnapshot.getChildrenCount(); i++)
-                    orderList.add(((List<Order>)((List<Map<String,Map>>) dataSnapshot.getValue()).get(i).get("cafe").get("cafeOrders")).get(0));
-                orderAdapter.setList(orderList);
-                orderAdapter.notifyDataSetChanged();*/
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        ref.addChildEventListener(new ChildEventListener() {
+        Useful.orderRef.child("Bikini Bottom").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                orderList.add(new Order((Map<String, ?>) dataSnapshot.getValue()));
-                System.out.println(orderList);
-                System.out.println(1000000);
+                orderList.add(new Order((Map<String, ?>) dataSnapshot.getValue())
+                        .setPos(Integer.parseInt(dataSnapshot.getKey())));
+                orderList = orderList.stream().filter(o -> !o.isDone()).collect(Collectors.toList());
                 orderAdapter.setList(orderList);
                 orderAdapter.notifyDataSetChanged();
             }

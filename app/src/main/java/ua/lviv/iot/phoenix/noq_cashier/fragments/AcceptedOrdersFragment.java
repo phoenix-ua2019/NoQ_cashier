@@ -2,6 +2,8 @@ package ua.lviv.iot.phoenix.noq_cashier.fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,14 +14,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+
 import ua.lviv.iot.phoenix.noq_cashier.R;
 import ua.lviv.iot.phoenix.noq_cashier.activities.BaseActivity;
+import ua.lviv.iot.phoenix.noq_cashier.activities.Useful;
 import ua.lviv.iot.phoenix.noq_cashier.adapters.OrderAdapter;
 import ua.lviv.iot.phoenix.noq_cashier.listeners.RecyclerTouchListener;
 import ua.lviv.iot.phoenix.noq_cashier.models.Order;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class AcceptedOrdersFragment extends Fragment {
@@ -37,10 +47,8 @@ public class AcceptedOrdersFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_list_of_accepted_orders, container, false);
-
-        Order order = getArguments().getParcelable("accepted order");
-
-        orderList.add(order);
+        /*
+        Order order = getArguments().getParcelable("accepted order");*/
 
         recyclerView = view.findViewById(R.id.accepted_orders_recycler_view);
 
@@ -67,7 +75,28 @@ public class AcceptedOrdersFragment extends Fragment {
             }
         }));
 
-        orderAdapter.notifyDataSetChanged();
+        Useful.orderRef.child("Bikini Bottom").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                orderList.add(new Order((Map<String, ?>) dataSnapshot.getValue()));
+                orderList = orderList.stream().filter(o -> o.isDone()).collect(Collectors.toList());
+                orderAdapter.setList(orderList);
+                orderAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                onChildAdded(dataSnapshot, s);
+            }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
         return view;
     }
 
