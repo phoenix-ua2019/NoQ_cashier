@@ -100,6 +100,7 @@ public class NewOrdersFragment extends Fragment {
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                onChildAdded(dataSnapshot, s);
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
