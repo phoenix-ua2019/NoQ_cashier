@@ -108,7 +108,7 @@ public class BaseActivity extends AppCompatActivity
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.base, fragment)
+                    .replace(this.fragment.getId(), fragment)
                     .commit();
             this.fragment = fragment;
         }
