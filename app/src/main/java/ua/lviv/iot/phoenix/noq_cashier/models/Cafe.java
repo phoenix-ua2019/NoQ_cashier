@@ -56,12 +56,11 @@ public class Cafe implements Parcelable {
     }
 
     public Cafe (HashMap<String, ?> map) {
-        System.out.println(map);
+        HashMap<String, ?> map_ = map;
         cafeName = (String) map.get("name");
         cafeLocation = (String) map.get("location");
         mDrawableId = (String) map.get("icon");
-        List<?> tempCafeMeals = (List<HashMap>) map.get("meals");
-        System.out.println(tempCafeMeals);
+        List<?> tempCafeMeals = (List<HashMap<String, ?>>) map.get("meals");
         mCafeMeals = (ArrayList<Meal>) tempCafeMeals.stream().map(Meal::new).collect(Collectors.toList());
     }
 
@@ -94,6 +93,7 @@ public class Cafe implements Parcelable {
     }
 
 
+    @PropertyName("name")
     public String getCafeName() {
         return cafeName;
     }
@@ -102,6 +102,7 @@ public class Cafe implements Parcelable {
         this.cafeName = cafeName;
     }
 
+    @PropertyName("location")
     public String getCafeLocation() {
         return cafeLocation;
     }
@@ -114,6 +115,7 @@ public class Cafe implements Parcelable {
         mDrawableId = id;
     }
 
+    @PropertyName("icon")
     public String getDrawableId() {
         return mDrawableId;
     }
@@ -122,6 +124,7 @@ public class Cafe implements Parcelable {
         return mDrawableId != null;
     }
 
+    @PropertyName("meals")
     public ArrayList<Meal> getCafeMeals() {
         return mCafeMeals;
     }

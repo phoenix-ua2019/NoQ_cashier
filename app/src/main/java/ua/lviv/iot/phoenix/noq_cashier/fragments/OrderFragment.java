@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import ua.lviv.iot.phoenix.noq_cashier.R;
 import ua.lviv.iot.phoenix.noq_cashier.activities.BaseActivity;
+import ua.lviv.iot.phoenix.noq_cashier.activities.Useful;
 import ua.lviv.iot.phoenix.noq_cashier.adapters.MealAdapter;
 import ua.lviv.iot.phoenix.noq_cashier.models.Meal;
 import ua.lviv.iot.phoenix.noq_cashier.models.Order;
@@ -41,7 +44,6 @@ public class OrderFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_order, container, false);
 
         Order order = getArguments().getParcelable("order");
-        System.out.println(order);
         ArrayList<Meal> meals = order.getCafe().getCafeMeals();
         String time = order.getTime();
         double sumPrice = order.getSum();
@@ -56,25 +58,22 @@ public class OrderFragment extends Fragment {
         ((TextView) view.findViewById(R.id.selected_time_show)).setText(time);
         ((TextView) view.findViewById(R.id.selected_price)).setText(String.format("%s ₴", sumPrice));
 
-        acceptOrder = (Button) view.findViewById(R.id.accept_order);
-        rejectOrder = (Button) view.findViewById(R.id.reject_order);
+        acceptOrder = view.findViewById(R.id.accept_order);
+        rejectOrder = view.findViewById(R.id.reject_order);
 
         currentActivity = (BaseActivity) getActivity();
 
-        acceptOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirmationDialogCaller(order, true);
-            }
+        acceptOrder.setOnClickListener((View v) -> {
+            order.setStatus(1);
+            Useful.orderRef.child("Bikini Bottom").child(""+order.getPos()).setValue(order);
+            currentActivity.goToAcceptedOrderFragment(view);
         });
 
-        rejectOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //
-                //setArguments(b);
-                confirmationDialogCaller(order, false);
-            }
+        rejectOrder.setOnClickListener((View v) -> {
+            order.setStatus(-1);
+            Useful.orderRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child(""+order.getPos()).setValue(order);
+            currentActivity.goToNewOrdersFragment(view);
         });
 
         return view;

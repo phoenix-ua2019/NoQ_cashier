@@ -125,28 +125,22 @@ public class BaseActivity extends AppCompatActivity
     }
 
     public void b1(View view) {
-        Bundle args = fragment.getArguments();
-        fragment = new OrderFragment();
-        fragment.setArguments(args);
-        setFragment();
+        setFragment(new OrderFragment());
     }
 
     public void goToNewOrdersFragment(View view) {
-        Bundle args = fragment.getArguments();
-        fragment = new NewOrdersFragment();
-        fragment.setArguments(args);
-        setFragment();
+        setFragment(new NewOrdersFragment());
     }
 
     public void goToAcceptedOrderFragment(View view) {
-        Bundle args = fragment.getArguments();
-        fragment = new AcceptedOrdersFragment();
-        fragment.setArguments(args);
-        setFragment();
+        setFragment(new AcceptedOrdersFragment());
     }
 
 
-    private void setFragment() {
+    private void setFragment(Fragment f) {
+        Bundle args = fragment.getArguments();
+        fragment = f;
+        fragment.setArguments(args);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.base, fragment)
