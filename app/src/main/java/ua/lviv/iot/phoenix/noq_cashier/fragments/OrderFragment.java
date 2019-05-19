@@ -1,6 +1,7 @@
 package ua.lviv.iot.phoenix.noq_cashier.fragments;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +30,10 @@ public class OrderFragment extends Fragment {
 
     Button acceptOrder;
     Button rejectOrder;
+    Button confirm;
+    Button decline;
+
+    Dialog confirmationDialog;
 
     BaseActivity currentActivity;
 
@@ -71,11 +76,51 @@ public class OrderFragment extends Fragment {
             currentActivity.goToNewOrdersFragment(view);
         });
 
-
-
-
-
         return view;
+    }
+
+    public void confirmationDialogCaller(Order order, boolean status) {
+        confirmationDialog = new Dialog(currentActivity);
+        confirmationDialog.setContentView(R.layout.acception_dialog);
+
+        confirm = confirmationDialog.findViewById(R.id.confirm_button);
+        decline = confirmationDialog.findViewById(R.id.decline_button);
+        TextView confirmationMassage = confirmationDialog.findViewById(R.id.confirmation_message);
+
+        confirm.setEnabled(true);
+        decline.setEnabled(true);
+
+        if (status) {
+            confirmationMassage.setText("Ви впевнені, що хочете підтвердити замовлення?");
+            confirm.setOnClickListener((View v) -> {
+                Bundle b = new Bundle();
+                order.setStatus(true);
+                b.putParcelable("accepted order", order);
+                setArguments(b);
+                currentActivity.goToAcceptedOrderFragment(view);
+                confirmationDialog.cancel();
+            });
+
+            decline.setOnClickListener((View v) -> {
+                confirmationDialog.cancel();
+            });
+
+        } else {
+            confirmationMassage.setText("Ви впевнені, що хочете відхилити замовлення?");
+            confirm.setOnClickListener((View v) -> {
+                order.setStatus(false);
+                currentActivity.goToNewOrdersFragment(view);
+                confirmationDialog.cancel();
+            });
+
+            decline.setOnClickListener((View v) -> {
+                confirmationDialog.cancel();
+            });
+
+        }
+
+
+        confirmationDialog.show();
     }
 
 }
