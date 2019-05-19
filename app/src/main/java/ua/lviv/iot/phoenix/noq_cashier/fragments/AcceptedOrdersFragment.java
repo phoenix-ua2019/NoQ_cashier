@@ -78,14 +78,20 @@ public class AcceptedOrdersFragment extends Fragment {
         Useful.orderRef.child("Bikini Bottom").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                orderList.add(new Order((Map<String, ?>) dataSnapshot.getValue()));
+                int size = orderList.size();
+                orderList.add(new Order((Map<String, ?>) dataSnapshot.getValue())
+                        .setPos(Integer.parseInt(dataSnapshot.getKey()),size+1));
                 orderList = orderList.stream().filter(o -> o.isDone()).collect(Collectors.toList());
                 orderAdapter.setList(orderList);
                 orderAdapter.notifyDataSetChanged();
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                onChildAdded(dataSnapshot, s);
+                Order order = new Order((Map<String, ?>) dataSnapshot.getValue());
+                orderList.set(order.getPosition(),order);
+                orderList = orderList.stream().filter(o -> o.isDone()).collect(Collectors.toList());
+                orderAdapter.setList(orderList);
+                orderAdapter.notifyDataSetChanged();
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {

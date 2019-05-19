@@ -19,6 +19,7 @@ public class Order implements Parcelable {
     private double mSum;
     private int status;
     private int pos;
+    private int position;
     public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>() {
         @Override
         public Order createFromParcel(Parcel source) {
@@ -108,8 +109,17 @@ public class Order implements Parcelable {
     public int getPos() {
         return pos;
     }
-    public Order setPos(int pos) {
+    public Order setPos(int pos, int position) {
         this.pos = pos;
+        this.position = position;
         return this;
+    }
+    public int getPosition() {
+        return position;
+    }
+
+    @Override
+    public String toString() {
+        return "time:"+mTime+", sum:"+mSum+", cafe:"+mCafe+", pos's:("+pos+";"+position+") .";
     }
 }
