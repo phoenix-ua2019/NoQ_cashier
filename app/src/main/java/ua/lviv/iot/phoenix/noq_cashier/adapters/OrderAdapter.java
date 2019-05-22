@@ -40,7 +40,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        System.out.println(position);
         Order order = orderList.get(position);
+        System.out.println(orderList);
+        System.out.println(order);
         holder.orderPrice.setText(String.format("%s ₴", order.getSum()));
         holder.time.setText(order.getTime());
     }
@@ -52,5 +55,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     public void setList(List<Order> list) {
         orderList = list;
+        notifyDataSetChanged();
     }
 }

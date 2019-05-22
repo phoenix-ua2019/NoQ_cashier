@@ -27,6 +27,7 @@ import java.util.ArrayList;
 public class OrderFragment extends Fragment {
 
     private View view;
+    private Order order;
 
     Button acceptOrder;
     Button rejectOrder;
@@ -43,7 +44,7 @@ public class OrderFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_order, container, false);
 
-        Order order = getArguments().getParcelable("order");
+        order = getArguments().getParcelable("order");
         ArrayList<Meal> meals = order.getCafe().getCafeMeals();
         String time = order.getTime();
         double sumPrice = order.getSum();
@@ -63,25 +64,16 @@ public class OrderFragment extends Fragment {
 
         currentActivity = (BaseActivity) getActivity();
 
-        acceptOrder.setOnClickListener((View v) -> {
-            order.setStatus(1);
-            Useful.orderRef.child("Bikini Bottom").child(""+order.getPos()).setValue(order);
-            currentActivity.goToAcceptedOrderFragment(view);
-        });
+        acceptOrder.setOnClickListener((View v) -> confirmationDialogCaller(true));
 
-        rejectOrder.setOnClickListener((View v) -> {
-            order.setStatus(-1);
-            Useful.orderRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child(""+order.getPos()).setValue(order);
-            currentActivity.goToNewOrdersFragment(view);
-        });
+        rejectOrder.setOnClickListener((View v) -> confirmationDialogCaller(false));
 
         return view;
     }
 
-    public void confirmationDialogCaller(Order order, boolean status) {
+    public void confirmationDialogCaller(boolean status) {
         confirmationDialog = new Dialog(currentActivity);
-        confirmationDialog.setContentView(R.layout.acception_dialog);
+        confirmationDialog.setContentView(R.layout.confirmation_dialog);
 
         confirm = confirmationDialog.findViewById(R.id.confirm_button);
         decline = confirmationDialog.findViewById(R.id.decline_button);
@@ -93,34 +85,26 @@ public class OrderFragment extends Fragment {
         if (status) {
             confirmationMassage.setText("Ви впевнені, що хочете підтвердити замовлення?");
             confirm.setOnClickListener((View v) -> {
-                Bundle b = new Bundle();
-                order.setStatus(true);
-                b.putParcelable("accepted order", order);
-                setArguments(b);
+                setStatus(1);
                 currentActivity.goToAcceptedOrderFragment(view);
-                confirmationDialog.cancel();
             });
-
-            decline.setOnClickListener((View v) -> {
-                confirmationDialog.cancel();
-            });
-
         } else {
             confirmationMassage.setText("Ви впевнені, що хочете відхилити замовлення?");
             confirm.setOnClickListener((View v) -> {
-                order.setStatus(false);
+                setStatus(-1);
                 currentActivity.goToNewOrdersFragment(view);
-                confirmationDialog.cancel();
             });
-
-            decline.setOnClickListener((View v) -> {
-                confirmationDialog.cancel();
-            });
-
         }
-
+        decline.setOnClickListener((View v) -> confirmationDialog.cancel());
 
         confirmationDialog.show();
+    }
+
+    private void setStatus(int status) {
+        order.setStatus(status);
+        Useful.orderRef.child(order.getUid()).child(""+order.getPos()).setValue(order);
+        Useful.orderRef.child("Bikini Bottom").child(""+order.getPos()).setValue(order);
+        confirmationDialog.cancel();
     }
 
 }

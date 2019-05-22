@@ -20,6 +20,7 @@ public class Order implements Parcelable {
     private int status;
     private int pos;
     private int position;
+    private String Uid;
     public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>() {
         @Override
         public Order createFromParcel(Parcel source) {
@@ -47,6 +48,7 @@ public class Order implements Parcelable {
     public Order (Map<String, ?> map) {
         mCafe = new Cafe(map.get("cafe"));
         mTime = (String) map.get("time");
+        Uid = (String) map.get("uid");
         try {
             mSum = (Double) map.get("sum");
         } catch (Exception e){
@@ -57,6 +59,7 @@ public class Order implements Parcelable {
         } catch (NullPointerException e) {
 
         }
+
     }
 
     public Order(String time, double sum, Date date, Cafe cafe){
@@ -66,8 +69,13 @@ public class Order implements Parcelable {
         mCafe = cafe;
     }
 
+    Order(String time, double sum, String id, Date date, Cafe cafe) {
+        this(time, sum, date, cafe);
+        Uid = id;
+    }
+
     Order(@NotNull Parcel source) throws ParseException {
-        this(source.readString(), source.readInt(),
+        this(source.readString(), source.readInt(), source.readString(),
                 DateFormat.getDateInstance().parse(source.readString()),
                 source.readParcelable(Cafe.class.getClassLoader()));
     }
@@ -81,6 +89,7 @@ public class Order implements Parcelable {
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(mTime);
         out.writeDouble(mSum);
+        out.writeString(Uid);
         out.writeString(mDate.toString());
         out.writeParcelable(mCafe,1);
     }
@@ -116,6 +125,9 @@ public class Order implements Parcelable {
     }
     public int getPosition() {
         return position;
+    }
+    public String getUid() {
+        return Uid;
     }
 
     @Override
