@@ -73,7 +73,7 @@ public class NewOrdersFragment extends Fragment {
 
         // row click listener
         recyclerView.addOnItemTouchListener(
-                new RecyclerTouchListener(currentActivity.getApplicationContext(),
+                new RecyclerTouchListener(getContext(),
                         recyclerView, new RecyclerTouchListener.ClickListener() {
                     @Override
                     public void onClick(View view, int position) {
@@ -95,17 +95,13 @@ public class NewOrdersFragment extends Fragment {
                 int size = orderList.size();
                 orderList.add(new Order((Map<String, ?>) dataSnapshot.getValue())
                         .setPos(Integer.parseInt(dataSnapshot.getKey()),size+1));
-                orderList = orderList.stream().filter(o -> !o.isDone()).collect(Collectors.toList());
-                orderAdapter.setList(orderList);
-                orderAdapter.notifyDataSetChanged();
+                orderAdapter.setList(orderList.stream().filter(o -> !o.isDone()).collect(Collectors.toList()));
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Order order = new Order((Map<String, ?>) dataSnapshot.getValue());
                 orderList.set(order.getPosition(),order);
-                orderList = orderList.stream().filter(o -> !o.isDone()).collect(Collectors.toList());
-                orderAdapter.setList(orderList);
-                orderAdapter.notifyDataSetChanged();
+                orderAdapter.setList(orderList.stream().filter(o -> !o.isDone()).collect(Collectors.toList()));
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {

@@ -13,11 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import ua.lviv.iot.phoenix.noq_cashier.R;
 import ua.lviv.iot.phoenix.noq_cashier.activities.BaseActivity;
@@ -25,8 +27,10 @@ import ua.lviv.iot.phoenix.noq_cashier.activities.Useful;
 import ua.lviv.iot.phoenix.noq_cashier.adapters.OrderAdapter;
 import ua.lviv.iot.phoenix.noq_cashier.listeners.RecyclerTouchListener;
 import ua.lviv.iot.phoenix.noq_cashier.models.Order;
+import ua.lviv.iot.phoenix.noq_cashier.models.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,7 +42,6 @@ public class AcceptedOrdersFragment extends Fragment {
     private RecyclerView recyclerView;
     private OrderAdapter orderAdapter;
     private View view;
-    private Order order;
 
     BaseActivity currentActivity;
 
@@ -48,14 +51,6 @@ public class AcceptedOrdersFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_list_of_accepted_orders, container, false);
-
-        try {
-            order = getArguments().getParcelable("accepted order");
-            orderList.add(order);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            System.out.println("Vpalo");
-        }
 
         recyclerView = view.findViewById(R.id.accepted_orders_recycler_view);
 
@@ -72,7 +67,8 @@ public class AcceptedOrdersFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // row click listener
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(currentActivity.getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(),
+                        recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
             }
@@ -88,17 +84,13 @@ public class AcceptedOrdersFragment extends Fragment {
                 int size = orderList.size();
                 orderList.add(new Order((Map<String, ?>) dataSnapshot.getValue())
                         .setPos(Integer.parseInt(dataSnapshot.getKey()),size+1));
-                orderList = orderList.stream().filter(o -> o.isDone()).collect(Collectors.toList());
-                orderAdapter.setList(orderList);
-                orderAdapter.notifyDataSetChanged();
+                orderAdapter.setList(orderList.stream().filter(Order::isDone).collect(Collectors.toList()));
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Order order = new Order((Map<String, ?>) dataSnapshot.getValue());
-                orderList.set(order.getPosition(),order);
-                orderList = orderList.stream().filter(o -> o.isDone()).collect(Collectors.toList());
-                orderAdapter.setList(orderList);
-                orderAdapter.notifyDataSetChanged();
+                orderList.set(order.getPosition(), order);
+                orderAdapter.setList(orderList.stream().filter(Order::isDone).collect(Collectors.toList()));
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
@@ -112,6 +104,5 @@ public class AcceptedOrdersFragment extends Fragment {
         });
         return view;
     }
-
 
 }

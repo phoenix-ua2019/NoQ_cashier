@@ -64,14 +64,9 @@ public class OrderFragment extends Fragment {
 
         currentActivity = (BaseActivity) getActivity();
 
-        acceptOrder.setOnClickListener((View v) -> {
-            confirmationDialogCaller(true);
-        });
+        acceptOrder.setOnClickListener((View v) -> confirmationDialogCaller(true));
 
-        rejectOrder.setOnClickListener((View v) -> {
-            order.setStatus(-1);
-            confirmationDialogCaller(false);
-        });
+        rejectOrder.setOnClickListener((View v) -> confirmationDialogCaller(false));
 
         return view;
     }
@@ -89,13 +84,18 @@ public class OrderFragment extends Fragment {
 
         if (status) {
             confirmationMassage.setText("Ви впевнені, що хочете підтвердити замовлення?");
-            confirm.setOnClickListener((View v) -> setStatus(1));
+            confirm.setOnClickListener((View v) -> {
+                setStatus(1);
+                currentActivity.goToAcceptedOrderFragment(view);
+            });
         } else {
             confirmationMassage.setText("Ви впевнені, що хочете відхилити замовлення?");
-            confirm.setOnClickListener((View v) -> setStatus(-1));
+            confirm.setOnClickListener((View v) -> {
+                setStatus(-1);
+                currentActivity.goToNewOrdersFragment(view);
+            });
         }
         decline.setOnClickListener((View v) -> confirmationDialog.cancel());
-
 
         confirmationDialog.show();
     }
@@ -104,8 +104,7 @@ public class OrderFragment extends Fragment {
         order.setStatus(status);
         Useful.orderRef.child(order.getUid()).child(""+order.getPos()).setValue(order);
         Useful.orderRef.child("Bikini Bottom").child(""+order.getPos()).setValue(order);
-        currentActivity.goToAcceptedOrderFragment(view);
-        confirmationDialog.closeOptionsMenu();
+        confirmationDialog.cancel();
     }
 
 }
