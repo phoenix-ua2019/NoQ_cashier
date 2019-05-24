@@ -19,13 +19,16 @@ import ua.lviv.iot.phoenix.noq_cashier.R;
 import ua.lviv.iot.phoenix.noq_cashier.fragments.NewOrdersFragment;
 import ua.lviv.iot.phoenix.noq_cashier.fragments.AcceptedOrdersFragment;
 import ua.lviv.iot.phoenix.noq_cashier.fragments.OrderFragment;
+import ua.lviv.iot.phoenix.noq_cashier.fragments.OrderFragmentToAcceptedOrderFragment;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Fragment fragment;
     private DrawerLayout drawerLayout;
-
+    private String pointer;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +37,15 @@ public class BaseActivity extends AppCompatActivity
 
         fragment = new NewOrdersFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.base, fragment).commit();
+        pointer = "NewOrdersFragment";
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Нові Замовлення");
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -49,11 +55,34 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        System.out.println("!!!!!!pointer = "+ pointer);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            closeDrawer();
         } else {
-            super.onBackPressed();
+            switch (pointer) {
+                case "NewOrdersFragment": {
+                    break;
+                }
+                case "OrderFragment": {
+                    goBackToNewOrdersFragment();
+                    break;
+                }
+                case "AcceptedOrderFragment": {
+                    goBackToNewOrdersFragment();
+                    break;
+                }
+                case "OrderFragmentFromNewOrderFragment": {
+                    goBackToNewOrdersFragment();
+                    break;
+                }
+                case "OrderFragmentFromAcceptedOrderFragment": {
+                    goBackToAcceptedOrderFragment();
+                    break;
+                }
+                default:{
+                    super.onBackPressed();
+                }
+            }
         }
     }
 
@@ -91,13 +120,14 @@ public class BaseActivity extends AppCompatActivity
         if (id == R.id.nav_new_orders) {
 
             fragment = new NewOrdersFragment();
+            toolbar.setTitle("Нові Замовлення");
 
         } else if (id == R.id.nav_accepted_orders) {
 
             fragment = new AcceptedOrdersFragment();
+            toolbar.setTitle("Підтверджені Замовлення");
 
         } else if (id == R.id.nav_exit) {
-
 
 
         } else {
@@ -124,16 +154,40 @@ public class BaseActivity extends AppCompatActivity
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 
-    public void b1(View view) {
+    public void goToOrderFragmentFromNewOrderFragment(View view) {
         setFragment(new OrderFragment());
+        pointer = "OrderFragmentFromNewOrderFragment";
+        toolbar.setTitle("Замовлення");
+    }
+
+    public void goToOrderFragmentFromAcceptedOrderFragment(View view) {
+        setFragment(new OrderFragmentToAcceptedOrderFragment());
+        pointer = "OrderFragmentFromAcceptedOrderFragment";
+        toolbar.setTitle("Замовлення");
+    }
+
+    public void goBackToNewOrdersFragment() {
+        setFragment(new NewOrdersFragment());
+        pointer = "NewOrdersFragment";
+        toolbar.setTitle("Нові Замовлення");
     }
 
     public void goToNewOrdersFragment(View view) {
         setFragment(new NewOrdersFragment());
+        pointer = "NewOrdersFragment";
+        toolbar.setTitle("Нові Замовлення");
     }
 
     public void goToAcceptedOrderFragment(View view) {
         setFragment(new AcceptedOrdersFragment());
+        pointer = "AcceptedOrderFragment";
+        toolbar.setTitle("Підтверджені Замовлення");
+    }
+
+    public void goBackToAcceptedOrderFragment() {
+        setFragment(new AcceptedOrdersFragment());
+        pointer = "AcceptedOrderFragment";
+        toolbar.setTitle("Підтверджені Замовлення");
     }
 
 

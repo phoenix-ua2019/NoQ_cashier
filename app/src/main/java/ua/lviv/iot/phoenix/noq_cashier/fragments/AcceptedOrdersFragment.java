@@ -71,6 +71,10 @@ public class AcceptedOrdersFragment extends Fragment {
                         recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                Bundle b = new Bundle();
+                b.putParcelable("order", orderList.get(position));
+                setArguments(b);
+                currentActivity.goToOrderFragmentFromAcceptedOrderFragment(view);
             }
 
             @Override
