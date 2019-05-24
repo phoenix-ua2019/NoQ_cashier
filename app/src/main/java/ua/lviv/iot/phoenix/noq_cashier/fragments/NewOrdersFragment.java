@@ -25,9 +25,6 @@ import ua.lviv.iot.phoenix.noq_cashier.models.Order;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +78,7 @@ public class NewOrdersFragment extends Fragment {
                         Bundle b = new Bundle();
                         b.putParcelable("order", orderList.get(position));
                         setArguments(b);
-                        currentActivity.b1(view);
+                        currentActivity.goToOrderFragmentFromNewOrderFragment(view);
                     }
 
             @Override

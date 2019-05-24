@@ -18,6 +18,7 @@ import android.view.View;
 import ua.lviv.iot.phoenix.noq_cashier.R;
 import ua.lviv.iot.phoenix.noq_cashier.fragments.NewOrdersFragment;
 import ua.lviv.iot.phoenix.noq_cashier.fragments.AcceptedOrdersFragment;
+import ua.lviv.iot.phoenix.noq_cashier.fragments.OrderFrafmentToAcceptedOrderFragment;
 import ua.lviv.iot.phoenix.noq_cashier.fragments.OrderFragment;
 
 public class BaseActivity extends AppCompatActivity
@@ -25,7 +26,7 @@ public class BaseActivity extends AppCompatActivity
 
     private Fragment fragment;
     private DrawerLayout drawerLayout;
-
+    private String pointer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class BaseActivity extends AppCompatActivity
 
         fragment = new NewOrdersFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.base, fragment).commit();
+        pointer = "NewOrdersFragment";
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,11 +51,34 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        System.out.println("!!!!!!pointer = "+ pointer);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            closeDrawer();
         } else {
-            super.onBackPressed();
+            switch (pointer) {
+                case "NewOrdersFragment": {
+                    break;
+                }
+                case "OrderFragment": {
+                    goBackToNewOrdersFragment();
+                    break;
+                }
+                case "AcceptedOrderFragment": {
+                    goBackToNewOrdersFragment();
+                    break;
+                }
+                case "OrderFragmentFromNewOrderFragment": {
+                    goBackToNewOrdersFragment();
+                    break;
+                }
+                case "OrderFragmentFromAcceptedOrderFragment": {
+                    goBackToAcceptedOrderFragment();
+                    break;
+                }
+                default:{
+                    super.onBackPressed();
+                }
+            }
         }
     }
 
@@ -124,16 +149,34 @@ public class BaseActivity extends AppCompatActivity
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 
-    public void b1(View view) {
+    public void goToOrderFragmentFromNewOrderFragment(View view) {
         setFragment(new OrderFragment());
+        pointer = "OrderFragmentFromNewOrderFragment";
+    }
+
+    public void goToOrderFragmentFromAcceptedOrderFragment(View view) {
+        setFragment(new OrderFrafmentToAcceptedOrderFragment());
+        pointer = "OrderFragmentFromAcceptedOrderFragment";
+    }
+
+    public void goBackToNewOrdersFragment() {
+        setFragment(new NewOrdersFragment());
+        pointer = "NewOrdersFragment";
     }
 
     public void goToNewOrdersFragment(View view) {
         setFragment(new NewOrdersFragment());
+        pointer = "NewOrdersFragment";
     }
 
     public void goToAcceptedOrderFragment(View view) {
         setFragment(new AcceptedOrdersFragment());
+        pointer = "AcceptedOrderFragment";
+    }
+
+    public void goBackToAcceptedOrderFragment() {
+        setFragment(new AcceptedOrdersFragment());
+        pointer = "AcceptedOrderFragment";
     }
 
 
