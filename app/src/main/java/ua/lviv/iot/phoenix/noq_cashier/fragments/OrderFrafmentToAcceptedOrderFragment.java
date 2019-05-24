@@ -51,7 +51,7 @@ public class OrderFrafmentToAcceptedOrderFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_order_meals_AO);
 
         orderAdapter = new OrderAdapter(orderList);
-        recyclerView.setAdapter(orderAdapter);
+        recyclerView.setAdapter(mealAdapter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
 
