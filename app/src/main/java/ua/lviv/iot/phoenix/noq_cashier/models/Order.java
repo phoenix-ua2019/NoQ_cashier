@@ -112,6 +112,9 @@ public class Order implements Parcelable {
     public boolean isDone() {
         return status == 1;
     }
+    public boolean isNew() {
+        return status == 0;
+    }
     public void setStatus(int status) {
         this.status = status;
     }

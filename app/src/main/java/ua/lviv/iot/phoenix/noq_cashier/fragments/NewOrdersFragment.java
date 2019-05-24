@@ -95,13 +95,13 @@ public class NewOrdersFragment extends Fragment {
                 int size = orderList.size();
                 orderList.add(new Order((Map<String, ?>) dataSnapshot.getValue())
                         .setPos(Integer.parseInt(dataSnapshot.getKey()),size+1));
-                orderAdapter.setList(orderList.stream().filter(o -> !o.isDone()).collect(Collectors.toList()));
+                orderAdapter.setList(orderList.stream().filter(Order::isNew).collect(Collectors.toList()));
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Order order = new Order((Map<String, ?>) dataSnapshot.getValue());
                 orderList.set(order.getPosition(),order);
-                orderAdapter.setList(orderList.stream().filter(o -> !o.isDone()).collect(Collectors.toList()));
+                orderAdapter.setList(orderList.stream().filter(Order::isNew).collect(Collectors.toList()));
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
