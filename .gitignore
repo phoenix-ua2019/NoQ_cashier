@@ -16,7 +16,10 @@ out/
 release/
 
 # Gradle files
-.gradle/*
+.gradle/5.1.1/executionHistory/
+.gradle/5.1.1/fileHashes/
+.gradle/5.1.1/javaCompile/
+.gradle/buildOutputCleanup/
 build/
 
 # Local configuration file (sdk path, etc)
