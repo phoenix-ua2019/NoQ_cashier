@@ -93,7 +93,7 @@ public class NewOrdersFragment extends Fragment {
                 System.out.println("Added!!!!!");
                 int size = orderList.size();
                 Order order = new Order(dataSnapshot.getValue())
-                        .setPos(Integer.parseInt(dataSnapshot.getKey()),size+1);
+                        .setPos(Integer.parseInt(dataSnapshot.getKey()));
                 if (order.isNew()) orderList.add(order);
                 orderAdapter.notifyItemChanged(size+1);
             }
