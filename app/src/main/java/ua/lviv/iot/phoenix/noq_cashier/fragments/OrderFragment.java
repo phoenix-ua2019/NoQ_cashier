@@ -102,7 +102,7 @@ public class OrderFragment extends Fragment {
 
     private void setStatus(int status) {
         order.setStatus(status);
-        Useful.orderRef.child(order.getUid()).child(""+order.getPos()).setValue(order);
+        Useful.orderRef.child(order.getUid()).child(""+order.getUserPos()).setValue(order);
         Useful.orderRef.child("Bikini Bottom").child(""+order.getPos()).setValue(order);
         confirmationDialog.cancel();
     }

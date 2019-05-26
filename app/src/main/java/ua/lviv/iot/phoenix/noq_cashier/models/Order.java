@@ -2,14 +2,21 @@ package ua.lviv.iot.phoenix.noq_cashier.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.PropertyName;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
+
+import ua.lviv.iot.phoenix.noq_cashier.activities.Useful;
 
 public class Order implements Parcelable {
 
@@ -19,6 +26,7 @@ public class Order implements Parcelable {
     private double mSum;
     private int status;
     private int pos;
+    private int userPos;
     private int position;
     private String Uid;
     public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>() {
@@ -54,11 +62,8 @@ public class Order implements Parcelable {
         } catch (Exception e){
             mSum = (Long) map.get("sum");
         }
-        try {
-            status = ((Long) map.get("status")).intValue();
-        } catch (NullPointerException e) {
-
-        }
+        status = map.containsKey("status") ? ((Long) map.get("status")).intValue() : 0;
+        userPos = ((Long) map.get("userPos")).intValue();
 
     }
 
@@ -109,25 +114,32 @@ public class Order implements Parcelable {
     public int getStatus() {
         return status;
     }
+    @Exclude
     public boolean isDone() {
         return status == 1;
     }
+    @Exclude
     public boolean isNew() {
         return status == 0;
     }
     public void setStatus(int status) {
         this.status = status;
     }
-    public int getPos() {
-        return pos;
-    }
     public Order setPos(int pos, int position) {
         this.pos = pos;
         this.position = position;
         return this;
     }
+    @Exclude
     public int getPosition() {
         return position;
+    }
+    @Exclude
+    public int getPos() {
+        return pos;
+    }
+    public int getUserPos() {
+        return userPos;
     }
     public String getUid() {
         return Uid;
@@ -135,6 +147,6 @@ public class Order implements Parcelable {
 
     @Override
     public String toString() {
-        return "time:"+mTime+", sum:"+mSum+", cafe:"+mCafe+", pos's:("+pos+";"+position+") .";
+        return "time:"+mTime+", sum:"+mSum+", cafe:"+mCafe+", pos's:("+pos+";"+position+";"+userPos+") .";
     }
 }

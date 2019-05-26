@@ -72,7 +72,7 @@ public class AcceptedOrdersFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Bundle b = new Bundle();
-                b.putParcelable("order", orderList.get(position));
+                b.putParcelable("order", orderAdapter.getOrderList().get(position));
                 setArguments(b);
                 currentActivity.goToOrderFragmentFromAcceptedOrderFragment(view);
             }
@@ -85,19 +85,30 @@ public class AcceptedOrdersFragment extends Fragment {
         Useful.orderRef.child("Bikini Bottom").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                System.out.println(s);
+                System.out.println("Added!!!!!");
                 int size = orderList.size();
-                orderList.add(new Order((Map<String, ?>) dataSnapshot.getValue())
-                        .setPos(Integer.parseInt(dataSnapshot.getKey()),size+1));
-                orderAdapter.setList(orderList.stream().filter(Order::isDone).collect(Collectors.toList()));
+                Order order = new Order(dataSnapshot.getValue())
+                        .setPos(Integer.parseInt(dataSnapshot.getKey()),size+1);
+                if (order.isDone()) orderList.add(order);
+                orderAdapter.notifyItemChanged(size+1);
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Order order = new Order((Map<String, ?>) dataSnapshot.getValue());
-                orderList.set(order.getPosition(), order);
-                orderAdapter.setList(orderList.stream().filter(Order::isDone).collect(Collectors.toList()));
+                System.out.println(s);
+                System.out.println("Changed!!!!!");
+                Order order = new Order(dataSnapshot.getValue());
+                int pos = orderList.indexOf(order);
+                if (!order.isDone()) orderList.remove(order);
+                orderAdapter.notifyItemChanged(pos);
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("Deleted");
+                Order order = new Order(dataSnapshot.getValue());
+                int pos = orderList.indexOf(order);
+                if (order.isDone()) orderList.remove(order);
+                orderAdapter.notifyItemChanged(pos);
             }
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

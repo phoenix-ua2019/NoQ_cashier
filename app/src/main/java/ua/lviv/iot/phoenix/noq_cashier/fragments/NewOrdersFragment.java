@@ -25,6 +25,8 @@ import ua.lviv.iot.phoenix.noq_cashier.models.Order;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,34 +76,43 @@ public class NewOrdersFragment extends Fragment {
                         recyclerView, new RecyclerTouchListener.ClickListener() {
                     @Override
                     public void onClick(View view, int position) {
-
                         Bundle b = new Bundle();
-                        b.putParcelable("order", orderList.get(position));
+                        b.putParcelable("order", orderAdapter.getOrderList().get(position));
                         setArguments(b);
                         currentActivity.goToOrderFragmentFromNewOrderFragment(view);
                     }
-
                     @Override
                     public void onLongClick(View v, int position) {
+
                     }
                 }));
-
         Useful.orderRef.child("Bikini Bottom").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                System.out.println(s);
+                System.out.println("Added!!!!!");
                 int size = orderList.size();
-                orderList.add(new Order((Map<String, ?>) dataSnapshot.getValue())
-                        .setPos(Integer.parseInt(dataSnapshot.getKey()),size+1));
-                orderAdapter.setList(orderList.stream().filter(Order::isNew).collect(Collectors.toList()));
+                Order order = new Order(dataSnapshot.getValue())
+                        .setPos(Integer.parseInt(dataSnapshot.getKey()),size+1);
+                if (order.isNew()) orderList.add(order);
+                orderAdapter.notifyItemChanged(size+1);
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Order order = new Order((Map<String, ?>) dataSnapshot.getValue());
-                orderList.set(order.getPosition(),order);
-                orderAdapter.setList(orderList.stream().filter(Order::isNew).collect(Collectors.toList()));
+                System.out.println(s);
+                System.out.println("Changed!!!!!");
+                Order order = new Order(dataSnapshot.getValue());
+                int pos = orderList.indexOf(order);
+                if (!order.isNew()) orderList.remove(order);
+                orderAdapter.notifyItemChanged(pos);
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("Deleted");
+                Order order = new Order(dataSnapshot.getValue());
+                int pos = orderList.indexOf(order);
+                if (order.isNew()) orderList.remove(order);
+                orderAdapter.notifyItemChanged(pos);
             }
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

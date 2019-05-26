@@ -42,7 +42,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         System.out.println(position);
         Order order = orderList.get(position);
-        System.out.println(orderList);
         System.out.println(order);
         holder.orderPrice.setText(String.format("%s ₴", order.getSum()));
         holder.time.setText(order.getTime());
@@ -53,8 +52,27 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         return orderList.size();
     }
 
-    public void setList(List<Order> list) {
+    /*public void setList(List<Order> list) {
         orderList = list;
         notifyDataSetChanged();
+    }*/
+    public List<Order> getOrderList() {
+        return orderList;
     }
+
+    /*public void set(int pos, Order o) {
+        orderList.set(pos, o);
+        notifyItemChanged(pos);
+    }
+
+    public void add(Order o) {
+        orderList.add(o);
+        notifyItemChanged(orderList.size());
+    }
+
+    public void remove(Order o) {
+        int i = orderList.indexOf(o);
+        orderList.remove(o);
+        notifyItemChanged(i);
+    }*/
 }
