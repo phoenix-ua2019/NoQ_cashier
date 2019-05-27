@@ -92,7 +92,7 @@ public class AcceptedOrdersFragment extends Fragment {
                         .setPos(Integer.parseInt(dataSnapshot.getKey()));
                 if (order.isDone()) {
                     orderList.add(order);
-                    orderAdapter.notifyItemChanged(size + 1);
+                    orderAdapter.notifyItemChanged(size);
                 }
             }
             @Override
