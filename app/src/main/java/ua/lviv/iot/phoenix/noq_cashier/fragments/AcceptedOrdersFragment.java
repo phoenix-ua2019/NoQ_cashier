@@ -89,9 +89,11 @@ public class AcceptedOrdersFragment extends Fragment {
                 System.out.println("Added!!!!!");
                 int size = orderList.size();
                 Order order = new Order(dataSnapshot.getValue())
-                        .setPos(Integer.parseInt(dataSnapshot.getKey()),size+1);
-                if (order.isDone()) orderList.add(order);
-                orderAdapter.notifyItemChanged(size+1);
+                        .setPos(Integer.parseInt(dataSnapshot.getKey()));
+                if (order.isDone()) {
+                    orderList.add(order);
+                    orderAdapter.notifyItemChanged(size);
+                }
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -99,16 +101,20 @@ public class AcceptedOrdersFragment extends Fragment {
                 System.out.println("Changed!!!!!");
                 Order order = new Order(dataSnapshot.getValue());
                 int pos = orderList.indexOf(order);
-                if (!order.isDone()) orderList.remove(order);
-                orderAdapter.notifyItemChanged(pos);
+                if (!order.isDone()) {
+                    orderList.remove(order);
+                    orderAdapter.notifyItemChanged(pos);
+                }
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println("Deleted");
                 Order order = new Order(dataSnapshot.getValue());
                 int pos = orderList.indexOf(order);
-                if (order.isDone()) orderList.remove(order);
-                orderAdapter.notifyItemChanged(pos);
+                if (order.isDone()) {
+                    orderList.remove(order);
+                    orderAdapter.notifyItemChanged(pos);
+                }
             }
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

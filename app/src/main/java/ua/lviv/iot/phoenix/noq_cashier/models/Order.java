@@ -125,14 +125,9 @@ public class Order implements Parcelable {
     public void setStatus(int status) {
         this.status = status;
     }
-    public Order setPos(int pos, int position) {
+    public Order setPos(int pos) {
         this.pos = pos;
-        this.position = position;
         return this;
-    }
-    @Exclude
-    public int getPosition() {
-        return position;
     }
     @Exclude
     public int getPos() {
