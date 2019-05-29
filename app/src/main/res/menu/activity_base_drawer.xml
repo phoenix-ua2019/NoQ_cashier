@@ -10,8 +10,8 @@
             android:title="Нові замовлення" />
         <item
             android:id="@+id/nav_accepted_orders"
-            android:icon="@drawable/baseline_check_circle_outline_black_18dp"
-            android:title="Всі замовлення" />
+            android:icon="@drawable/ic_check"
+            android:title="Підтверджені замовлення" />
         <item
             android:id="@+id/nav_exit"
             android:icon="@drawable/exit"
