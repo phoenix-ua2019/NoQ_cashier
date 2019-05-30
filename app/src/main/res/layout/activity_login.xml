@@ -121,8 +121,8 @@
                 android:text="Увійти"
                 android:textAllCaps="false"
                 android:textColor="#fff"
-                android:textSize="18sp" />
-
+                android:textSize="18sp"
+                android:onClick="onClick"/>
 
         </RelativeLayout>
 

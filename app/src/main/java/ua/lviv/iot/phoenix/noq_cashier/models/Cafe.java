@@ -3,7 +3,6 @@ package ua.lviv.iot.phoenix.noq_cashier.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.common.base.Splitter;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
 
@@ -17,17 +16,14 @@ import java.util.stream.Collectors;
 public class Cafe implements Parcelable {
     private String cafeName;
     private String cafeLocation;
-
-    private String mDrawableId;// = -700119;
+    private String cafeEmail;
+    private String mDrawableId;
+    private String Cid;
     private ArrayList<Meal> mCafeMeals;
 
 
-    public Cafe() { }
-
-    /*public Cafe(String cafeName, String cafeLocation) {
-        this.cafeName = cafeName;
-        this.cafeLocation = cafeLocation;
-    }*/
+    public Cafe() {
+    }
 
     public static final Creator<Cafe> CREATOR =
             new Creator<Cafe>() {
@@ -47,12 +43,8 @@ public class Cafe implements Parcelable {
     }
 
     public Cafe (Parcel source) {
-        this(source.readString(), source.readString(), source.readString(), source.readString(), new ArrayList<Meal>());
+        this(source.readString(), source.readString(), source.readString(), source.readString(), new ArrayList<>());
         source.readList(mCafeMeals, Meal.class.getClassLoader());
-    }
-
-    public Cafe (String str) {
-        this((new HashMap<>(Splitter.on("], ").withKeyValueSeparator("=[").split(str))));
     }
 
     public Cafe (HashMap<String, ?> map) {
@@ -60,15 +52,26 @@ public class Cafe implements Parcelable {
         cafeName = (String) map.get("name");
         cafeLocation = (String) map.get("location");
         mDrawableId = (String) map.get("icon");
+        Cid = (String) map.get("cid");
         List<?> tempCafeMeals = (List<HashMap<String, ?>>) map.get("meals");
         mCafeMeals = (ArrayList<Meal>) tempCafeMeals.stream().map(Meal::new).collect(Collectors.toList());
     }
 
-    public Cafe (String name, String location, String email, String iconId, ArrayList<Meal> meals) {
+    public Cafe (String name, String location, String email, String iconId) {
         cafeName = name;
         cafeLocation = location;
+        cafeEmail = email;
         mDrawableId = iconId;
+    }
+
+    public Cafe (String name, String location, String email, String iconId, ArrayList<Meal> meals) {
+        this(name, location, email, iconId);
         mCafeMeals = meals;
+    }
+
+    public Cafe (String name, String location, String email, String iconId, String Cid) {
+        this(name, location, email, iconId);
+        this.Cid = Cid;
     }
 
     @Override
@@ -92,45 +95,29 @@ public class Cafe implements Parcelable {
         out.writeList(mCafeMeals);
     }
 
-
-    @PropertyName("name")
-    public String getCafeName() {
+    public String getName() {
         return cafeName;
     }
 
-    public void setCafeName(String cafeName) {
-        this.cafeName = cafeName;
-    }
-
-    @PropertyName("location")
-    public String getCafeLocation() {
+    public String getLocation() {
         return cafeLocation;
     }
 
-    public void setCafeLocation(String cafeLocation) {
-        this.cafeLocation = cafeLocation;
-    }
-
-    public void setDrawableId(String id) {
-        mDrawableId = id;
-    }
-
-    @PropertyName("icon")
-    public String getDrawableId() {
+    public String getIcon() {
         return mDrawableId;
     }
 
-    public boolean hasImage(){
-        return mDrawableId != null;
+    public String getEmail() {
+        return cafeEmail;
+    }
+
+    public String getCid() {
+        return Cid;
     }
 
     @PropertyName("meals")
     public ArrayList<Meal> getCafeMeals() {
         return mCafeMeals;
-    }
-
-    public void setCafeMeals(ArrayList<Meal> meals) {
-        mCafeMeals = meals;
     }
 
 }

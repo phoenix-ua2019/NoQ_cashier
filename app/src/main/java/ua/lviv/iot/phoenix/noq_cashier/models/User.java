@@ -29,11 +29,19 @@ public class User implements Parcelable {
     public User() {
     }
 
-    public User(String name, String email, String date, String phone) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.date = date;
+    }
+
+    public User(String name, String email, String phone) {
+        this(name, email);
         this.phone = phone;
+    }
+
+    public User(String name, String email, String date, String phone) {
+        this(name, email, phone);
+        this.date = date;
     }
 
     public User(HashMap<String, String> map) {

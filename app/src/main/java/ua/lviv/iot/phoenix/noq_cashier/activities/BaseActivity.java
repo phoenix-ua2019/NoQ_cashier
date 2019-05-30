@@ -41,7 +41,11 @@ public class BaseActivity extends AppCompatActivity
 
 
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        try {
+            setSupportActionBar(toolbar);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         toolbar.setTitle("Нові Замовлення");
 
         drawerLayout = findViewById(R.id.drawer_layout);
