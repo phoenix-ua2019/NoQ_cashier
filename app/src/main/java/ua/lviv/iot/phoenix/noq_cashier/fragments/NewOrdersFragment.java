@@ -22,6 +22,8 @@ import ua.lviv.iot.phoenix.noq_cashier.activities.Useful;
 import ua.lviv.iot.phoenix.noq_cashier.adapters.OrderAdapter;
 import ua.lviv.iot.phoenix.noq_cashier.listeners.RecyclerTouchListener;
 import ua.lviv.iot.phoenix.noq_cashier.models.Order;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,18 +40,13 @@ import java.util.stream.Collectors;
  */
 public class NewOrdersFragment extends Fragment {
 
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     private List<Order> orderList = new ArrayList<>();
     private RecyclerView recyclerView;
     private OrderAdapter orderAdapter;
     private View view;
-
-    ImageView plus, minus;
-    Button chooseTimeBtn;
-    Dialog quantityDialog;
     BaseActivity currentActivity;
-
-    int commonSelectedAmount = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,7 +83,7 @@ public class NewOrdersFragment extends Fragment {
 
                     }
                 }));
-        Useful.orderRef.child("Bikini Bottom").addChildEventListener(new ChildEventListener() {
+        Useful.orderRef.child(mAuth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 System.out.println(s);

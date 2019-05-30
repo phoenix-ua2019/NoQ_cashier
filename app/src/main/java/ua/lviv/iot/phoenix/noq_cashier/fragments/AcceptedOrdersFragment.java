@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +39,7 @@ import java.util.stream.Collectors;
 
 public class AcceptedOrdersFragment extends Fragment {
 
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private List<Order> orderList = new ArrayList<>();
     private RecyclerView recyclerView;
     private OrderAdapter orderAdapter;
@@ -82,7 +84,7 @@ public class AcceptedOrdersFragment extends Fragment {
             }
         }));
 
-        Useful.orderRef.child("Bikini Bottom").addChildEventListener(new ChildEventListener() {
+        Useful.orderRef.child(mAuth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 System.out.println(s);

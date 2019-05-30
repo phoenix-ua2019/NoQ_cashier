@@ -27,6 +27,9 @@ import ua.lviv.iot.phoenix.noq_cashier.fragments.OrderFragmentToAcceptedOrderFra
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
     private Fragment fragment;
     private DrawerLayout drawerLayout;
     private String pointer;
@@ -135,7 +138,6 @@ public class BaseActivity extends AppCompatActivity
             toolbar.setTitle("Підтверджені Замовлення");
 
         } else if (id == R.id.nav_exit) {
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
             if (mAuth == null)
                 return false;
             mAuth.signOut();

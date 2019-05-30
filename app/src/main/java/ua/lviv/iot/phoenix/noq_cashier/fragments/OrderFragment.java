@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 public class OrderFragment extends Fragment {
 
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private View view;
     private Order order;
 
@@ -34,7 +35,6 @@ public class OrderFragment extends Fragment {
     Button rejectOrder;
     Button confirm;
     Button decline;
-
     Dialog confirmationDialog;
 
     BaseActivity currentActivity;
@@ -105,7 +105,7 @@ public class OrderFragment extends Fragment {
     private void setStatus(int status) {
         order.setStatus(status);
         Useful.orderRef.child(order.getUid()).child(""+order.getUserPos()).setValue(order);
-        Useful.orderRef.child("Bikini Bottom").child(""+order.getPos()).setValue(order);
+        Useful.orderRef.child(mAuth.getCurrentUser().getUid()).child(""+order.getPos()).setValue(order);
         confirmationDialog.cancel();
     }
 
