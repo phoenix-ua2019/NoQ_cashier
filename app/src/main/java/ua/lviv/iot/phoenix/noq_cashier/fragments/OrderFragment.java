@@ -20,6 +20,7 @@ import ua.lviv.iot.phoenix.noq_cashier.activities.Useful;
 import ua.lviv.iot.phoenix.noq_cashier.adapters.MealAdapter;
 import ua.lviv.iot.phoenix.noq_cashier.models.Meal;
 import ua.lviv.iot.phoenix.noq_cashier.models.Order;
+import ua.lviv.iot.phoenix.noq_cashier.models.User;
 
 import java.util.ArrayList;
 
@@ -55,9 +56,13 @@ public class OrderFragment extends Fragment {
         recyclerView.setAdapter(mealAdapter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
+        Useful useful = new Useful();
+        useful.setUser(order.getUid());
+        User mUser = useful.getUser();
 
         ((TextView) view.findViewById(R.id.selected_time_show)).setText(time);
         ((TextView) view.findViewById(R.id.selected_price)).setText(String.format("%s ₴", sumPrice));
+        ((TextView) view.findViewById(R.id.user_name_in_FO)).setText(mUser.getName());
 
         acceptOrder = view.findViewById(R.id.accept_order);
         rejectOrder = view.findViewById(R.id.reject_order);

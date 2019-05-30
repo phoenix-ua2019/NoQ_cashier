@@ -17,11 +17,13 @@ import java.util.List;
 
 import ua.lviv.iot.phoenix.noq_cashier.R;
 import ua.lviv.iot.phoenix.noq_cashier.activities.BaseActivity;
+import ua.lviv.iot.phoenix.noq_cashier.activities.Useful;
 import ua.lviv.iot.phoenix.noq_cashier.adapters.MealAdapter;
 import ua.lviv.iot.phoenix.noq_cashier.adapters.OrderAdapter;
 import ua.lviv.iot.phoenix.noq_cashier.listeners.RecyclerTouchListener;
 import ua.lviv.iot.phoenix.noq_cashier.models.Meal;
 import ua.lviv.iot.phoenix.noq_cashier.models.Order;
+import ua.lviv.iot.phoenix.noq_cashier.models.User;
 
 public class OrderFragmentToAcceptedOrderFragment extends Fragment {
 
@@ -43,6 +45,10 @@ public class OrderFragmentToAcceptedOrderFragment extends Fragment {
         String time = order.getTime();
         double sumPrice = order.getSum();
 
+        Useful useful = new Useful();
+        useful.setUser(order.getUid());
+        User mUser = useful.getUser();
+
         mealAdapter = new MealAdapter(meals);
 
         recyclerView = view.findViewById(R.id.recycler_order_meals_AO);
@@ -53,6 +59,7 @@ public class OrderFragmentToAcceptedOrderFragment extends Fragment {
 
         ((TextView) view.findViewById(R.id.selected_time_show_AO)).setText(time);
         ((TextView) view.findViewById(R.id.selected_price_AO)).setText(String.format("%s ₴", sumPrice));
+        ((TextView) view.findViewById(R.id.user_name_in_OFAO)).setText(mUser.getName());
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
