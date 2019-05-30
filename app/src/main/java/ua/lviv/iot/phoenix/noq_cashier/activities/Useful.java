@@ -27,9 +27,9 @@ public class Useful implements ValueEventListener {
     Order order;
     TextView name, number;
     Activity that;
+    public static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    public static final DatabaseReference authRef = ref.child("authentication");
     public static final DatabaseReference
-            ref = FirebaseDatabase.getInstance().getReference(),
-            authRef = ref.child("authentication"),
             cafeRef = ref.child("cafes"),
             orderRef = ref.child("orders"),
             userRef = authRef.child("users");
