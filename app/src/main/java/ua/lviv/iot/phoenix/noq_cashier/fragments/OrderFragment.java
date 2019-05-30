@@ -56,13 +56,10 @@ public class OrderFragment extends Fragment {
         recyclerView.setAdapter(mealAdapter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        Useful useful = new Useful();
-        useful.setUser(order.getUid());
-        User mUser = useful.getUser();
+        new Useful(order, view.findViewById(R.id.user_name_in_FO), view.findViewById(R.id.order_number_in_FO)).setUser();
 
         ((TextView) view.findViewById(R.id.selected_time_show)).setText(time);
         ((TextView) view.findViewById(R.id.selected_price)).setText(String.format("%s ₴", sumPrice));
-        ((TextView) view.findViewById(R.id.user_name_in_FO)).setText(mUser.getName());
 
         acceptOrder = view.findViewById(R.id.accept_order);
         rejectOrder = view.findViewById(R.id.reject_order);

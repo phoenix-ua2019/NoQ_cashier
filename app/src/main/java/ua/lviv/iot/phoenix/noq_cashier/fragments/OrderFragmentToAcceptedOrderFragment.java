@@ -45,9 +45,7 @@ public class OrderFragmentToAcceptedOrderFragment extends Fragment {
         String time = order.getTime();
         double sumPrice = order.getSum();
 
-        Useful useful = new Useful();
-        useful.setUser(order.getUid());
-        User mUser = useful.getUser();
+        new Useful(order, view.findViewById(R.id.user_name_in_OFAO), view.findViewById(R.id.order_number_in_OFAO)).setUser();
 
         mealAdapter = new MealAdapter(meals);
 
@@ -59,7 +57,6 @@ public class OrderFragmentToAcceptedOrderFragment extends Fragment {
 
         ((TextView) view.findViewById(R.id.selected_time_show_AO)).setText(time);
         ((TextView) view.findViewById(R.id.selected_price_AO)).setText(String.format("%s ₴", sumPrice));
-        ((TextView) view.findViewById(R.id.user_name_in_OFAO)).setText(mUser.getName());
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);

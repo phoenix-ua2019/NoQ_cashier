@@ -57,6 +57,7 @@ public class Order implements Parcelable {
         mCafe = new Cafe(map.get("cafe"));
         mTime = (String) map.get("time");
         Uid = (String) map.get("uid");
+        pos = ((Long) map.get("pos")).intValue();
         try {
             mSum = (Double) map.get("sum");
         } catch (Exception e){
@@ -129,7 +130,6 @@ public class Order implements Parcelable {
         this.pos = pos;
         return this;
     }
-    @Exclude
     public int getPos() {
         return pos;
     }
