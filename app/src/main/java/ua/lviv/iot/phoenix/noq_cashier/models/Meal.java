@@ -42,6 +42,7 @@ public class Meal implements Parcelable {
         mealName = (String) map.get("name");
         price = (Long) map.get("price");
         time = ((Long) map.get("time")).intValue();
+        mealPicture = (String) map.get("icon_of_food");
         try {
             Object temp = map.get("selectedQuantity");
             selectedQuantity = ((Long) temp).intValue();
@@ -103,6 +104,7 @@ public class Meal implements Parcelable {
         this.time = preparationTime;
     }
 
+    @PropertyName("icon_of_food")
     public String getMealPicture() {
         return mealPicture;
     }
@@ -111,41 +113,17 @@ public class Meal implements Parcelable {
         this.mealPicture = mealPicture;
     }
 
-    public double getWeight() {
-        return weight;
-    }
-
     public String weightToString() {
         return weight + "г";
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     @PropertyName("selectedQuantity")
     public int getSelectedQuantity() {
         return selectedQuantity;
-    }
-
-    public void setSelectedQuantity(int selectedQuantity) {
-        this.selectedQuantity = selectedQuantity;
     }
 
     public String selectedQuantityToString() {

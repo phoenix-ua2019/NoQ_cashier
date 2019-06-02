@@ -2,6 +2,8 @@ package ua.lviv.iot.phoenix.noq_cashier.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.view.View;
@@ -27,6 +29,7 @@ public class Useful implements ValueEventListener {
     Order order;
     TextView name, number;
     Activity that;
+    
     public static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     public static final DatabaseReference authRef = ref.child("authentication");
     public static final DatabaseReference

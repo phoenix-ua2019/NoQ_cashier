@@ -13,14 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import ua.lviv.iot.phoenix.noq_cashier.R;
 import ua.lviv.iot.phoenix.noq_cashier.activities.BaseActivity;
@@ -28,13 +25,9 @@ import ua.lviv.iot.phoenix.noq_cashier.activities.Useful;
 import ua.lviv.iot.phoenix.noq_cashier.adapters.OrderAdapter;
 import ua.lviv.iot.phoenix.noq_cashier.listeners.RecyclerTouchListener;
 import ua.lviv.iot.phoenix.noq_cashier.models.Order;
-import ua.lviv.iot.phoenix.noq_cashier.models.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 
 public class AcceptedOrdersFragment extends Fragment {
